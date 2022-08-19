@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+// option go_package="./:hello_grpc";
+option go_package="base/hello_grpc/pb/hello;hello";
+
+import "google/api/annotations.proto";
+package hello_grpc;
+
+message Req{
+    string message = 1;
+    int32 age = 2;
+}
+
+message Res{
+    string message = 1;
+    int32 age = 2;
+}
+
+service HelloGrpc{
+    rpc Search(Req) returns (Res){
+        option(google.api.http)={
+            post:"/api/search",
+            body:"*"
+        };
+    };// 传统的即可响应
+    rpc SearchIn(stream Req) returns (Res);// 流式输入
+    rpc SearchOut(Req) returns (stream Res);// 流式输出
+    rpc SearchIO(stream Req) returns (stream Res);// 流式输入输出
+
+}
