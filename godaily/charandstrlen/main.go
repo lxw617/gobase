@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+	// str字符串和字符区别
 	// fmt.Println(len("6积分:"))                    //8
 	// fmt.Println(utf8.RuneCountInString("6积分:")) //4
 	// fmt.Printf("%-15s%v\n", "6积分:", "6个(剩:1个)")

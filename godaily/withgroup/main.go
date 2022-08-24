@@ -9,6 +9,7 @@ var wg sync.WaitGroup
 
 func main() {
 
+	// 并发WaitGroup使用
 	for i := 1; i <= 3; i++ {
 		wg.Add(1)
 		go func(index int) {

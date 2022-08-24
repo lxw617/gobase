@@ -26,5 +26,21 @@ service HelloGrpc{
     rpc SearchIn(stream Req) returns (Res);// 流式输入
     rpc SearchOut(Req) returns (stream Res);// 流式输出
     rpc SearchIO(stream Req) returns (stream Res);// 流式输入输出
-
 }
+
+/*
+PS E:\base\hello_grpc\pb> .\build.bat
+
+E:\base\hello_grpc\pb>protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative --grpc-gateway_out . --grpc-gateway_opt paths=source_relative  ./hello/hello_grpc.proto
+PS E:\base\hello_grpc\pb> go run .\client\main.go
+CreateFile .\client\main.go: The system cannot find the path specified.      
+PS E:\base\hello_grpc\pb> cd ..
+PS E:\base\hello_grpc> go run .\client\main.go
+从客户端接收到的消息为好久不见
+22
+
+PS E:\base\hello_grpc> go run .\server\main.go
+好久不见
+12
+exit status 0xc000013a
+*/

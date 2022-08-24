@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 func main() {
+	// 根据指定数组生成不同三位数字组成的map集合
 	var a []int = []int{1, 2, 3, 4, 4, 3, 3, 2, 1}
 	mapa := make(map[int]int, 0)
 	for _, x := range a {

@@ -17,6 +17,7 @@ func HanCounter(s string) int {
 }
 
 func main() {
+	// 获取指定字符串汉字个数
 	s := "hello库珀"
 	count := HanCounter(s)
 	fmt.Println(count)
