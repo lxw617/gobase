@@ -9,27 +9,26 @@ func main() {
 	i := lengthOfLongestSubstring(s)
 	fmt.Println(i)
 }
-func longestPalindrome(s string) string {
-	left, right, max, l, r := 0, 1, 0, 0, 0
-
-	for i := 0; i < len(s); i++ {
-		if s[left] == s[right] {
-			if left-1 >= 0 {
-				left--
-				right++
-			}
+func lengthOfLongestSubstring(s string) int {
+	l, r, max := 0, 0, 0
+	m := map[byte]int{}
+	for ; r < len(s); r++ {
+		v := s[r]
+		if _, ok := m[v]; !ok {
+			m[v] = r
 		} else {
-			left++
-			right++
+			//更新r，设置l=之前的r+1
+			if m[v]+1 >= l {
+				l = m[v] + 1
+			}
+			m[v] = r
 		}
-		if right-left+1 > max {
-			max = right - left + 1
-			l = left
-			r = right + 1
+		if r-l+1 > max {
+			max = r - l + 1
 		}
+		fmt.Println(m)
 	}
-	ss := s[l:r]
-	return ss
+	return max
 }
 
 /*
