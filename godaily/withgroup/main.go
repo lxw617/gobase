@@ -13,8 +13,8 @@ func main() {
 	for i := 1; i <= 3; i++ {
 		wg.Add(1)
 		go func(index int) {
-			for j := 1; j <= 5; j++ {
-				fmt.Printf("第%d次执行,i的值为:%d\n", index, j)
+			for i := 1; i <= 5; i++ {
+				fmt.Printf("第%d次执行,i的值为:%d\n", index, i)
 			}
 			wg.Done()
 		}(i)
