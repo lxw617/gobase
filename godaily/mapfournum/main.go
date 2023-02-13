@@ -13,7 +13,16 @@ func main() {
 			}
 		}
 	}
-	for k, v := range mapa {
-		fmt.Printf("%d ---> %d\n", k, v)
+	// for k, v := range mapa {
+	// 	fmt.Printf("%d ---> %d\n", k, v)
+	// }
+
+	// if item, ok := mapa[344]; ok {
+	// 	fmt.Printf("item:%d", item)
+	// }
+
+	item := mapa[344]
+	if item != 0 {
+		fmt.Printf("item:%d", item)
 	}
 }

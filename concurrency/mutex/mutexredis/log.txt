@@ -1,0 +1,59 @@
+测试环境:  
+
+Redis:Redis server v=6.2.3
+
+Go:go version go1.18 windows/amd64
+
+测试配置:
+
+每个线程可重入次数1次(总加锁2次)
+每个线程开启1个自动续期的守护线程(sync.Once.Do确保仅调用1次)
+每个模拟业务延迟时间用50~100ms的范围随机生成
+hash锁的field通过线程初始化时生成,执行过程中field不变,field是判断一个锁是否属于当前线程唯一标准
+加锁失败后重试次数为5，重试间隔为50ms
+通过随机生成的Tag来标识线程以及打印流程
+互斥锁的KEY为EXAMPLE_LOCK
+
+
+加锁
+-- KEYS[1]:锁对应的key
+-- ARGV[1]:锁的expire
+-- ARGV[2]:锁对应的计数器field(随机值,防止误解锁),记录当前线程已加锁的次数
+-- 判断锁是否空闲
+if (redis.call('EXISTS', KEYS[1]) == 0) then
+    -- 线程首次加锁(锁的初始化,值和过期时间)
+    redis.call('HINCRBY', KEYS[1], ARGV[2], 1);
+    redis.call('PEXPIRE', KEYS[1], ARGV[1]);
+    return 1;
+end;
+-- 判断当前线程是否持有锁(锁被某个线程持有,通常是程序第N次(N>1)在线程内调用时会执行到此处)
+if (redis.call('HEXISTS', KEYS[1], ARGV[2]) == 1) then
+    -- 调用次数递增
+    redis.call('HINCRBY', KEYS[1], ARGV[2], 1);
+    -- 不处理续期,通过守护线程续期
+    return 1;
+end;
+-- 锁被其他线程占用,加锁失败
+return 0;
+
+解锁
+-- KEYS[1]:锁对应的key
+-- ARGV[1]:锁对应的计数器field(随机值,防止误解锁),记录当前线程已加锁的次数
+-- 判断 hash set 是否存在
+if (redis.call('HEXISTS', KEYS[1], ARGV[1]) == 0) then
+    -- err = redis.Nil
+    return nil;
+end;
+-- 计算当前已加锁次数
+local counter = redis.call('HINCRBY', KEYS[1], ARGV[1], -1);
+if (counter > 0) then
+    -- 同一线程内部多次调用完成后尝试释放锁会进入此if分支
+    return 0;
+else
+    -- 同一线程最外层(第一次)调用完成后尝试释放锁会进入此if分支
+    -- <=0代表内层嵌套调用已全部完成，可以解锁
+    redis.call('DEL', KEYS[1]);
+    return 1;
+end;
+-- err = redis.Nil
+return nil;

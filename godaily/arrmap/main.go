@@ -38,18 +38,19 @@ func main() {
 	})
 
 }
-func (nums []map[string]interface{})  string {
-	if len(nums) == 0 {
-        return 0
-    }
-    left,right := 1,1
-    for right < len(nums){
-        if nums[right] != nums[right-1]{
-            nums[left] = nums[right]
-            left ++
-        }
-        right ++
-    }
-    return left
-	
-}
+
+// func (nums []map[string]interface{})  string {
+// 	if len(nums) == 0 {
+//         return 0
+//     }
+//     left,right := 1,1
+//     for right < len(nums){
+//         if nums[right] != nums[right-1]{
+//             nums[left] = nums[right]
+//             left ++
+//         }
+//         right ++
+//     }
+//     return left
+
+// }
