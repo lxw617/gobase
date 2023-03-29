@@ -9,15 +9,15 @@ import (
 )
 
 var (
-	outFile = "./temp/out_excel7.xlsx"
+	outFile = "./temp/excel7.xlsx"
 )
 
 func main() {
 	tableName := "ceshi"
 	fileName := "out_excel7"
 	tableHead := []interface{}{111, 222}
-	sheet, file, fileUrl, fileName, err := GetPointExcelHeader(fileName, tableHead, tableName)
-	err = file.Save(outFile)
+	sheet, file, fileUrl, fileName, _ := GetPointExcelHeader(fileName, tableHead, tableName)
+	err := file.Save(outFile)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

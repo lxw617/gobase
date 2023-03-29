@@ -118,7 +118,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	if err := f.SaveAs("./temp/Book2.xlsx"); err != nil {
+	if err := f.SaveAs("./temp/excel6.xlsx"); err != nil {
 		fmt.Println(err)
 	}
 }
