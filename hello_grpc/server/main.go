@@ -1,12 +1,13 @@
 package main
 
 import (
-	hello_grpc "base/hello_grpc/pb/hello"
 	"context"
 	"fmt"
 	"net"
 	"net/http"
 	"sync"
+
+	hello_grpc "base/hello_grpc/pb/hello"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
@@ -26,6 +27,7 @@ func (s *server) Search(ctx context.Context, req *hello_grpc.Req) (*hello_grpc.R
 		Age:     age + 10,
 	}, nil
 }
+
 func (s *server) SearchIn(server hello_grpc.HelloGrpc_SearchInServer) error {
 	// SendAndClose(*Res) error
 	// Recv() (*Req, error) 不间断读取
@@ -42,6 +44,7 @@ func (s *server) SearchIn(server hello_grpc.HelloGrpc_SearchInServer) error {
 	}
 	return nil
 }
+
 func (s *server) SearchOut(req *hello_grpc.Req, server hello_grpc.HelloGrpc_SearchOutServer) error {
 	fmt.Println(req.GetMessage())
 	fmt.Println(req.GetAge())
@@ -52,7 +55,7 @@ func (s *server) SearchOut(req *hello_grpc.Req, server hello_grpc.HelloGrpc_Sear
 		if i > 10 {
 			break
 		}
-		server.Send(&hello_grpc.Res{
+		server.Send(&hello_grpc.Res{ //nolint:errcheck
 			Message: message + "lallalalllll",
 			Age:     age + 100,
 		})
@@ -60,6 +63,7 @@ func (s *server) SearchOut(req *hello_grpc.Req, server hello_grpc.HelloGrpc_Sear
 	}
 	return nil
 }
+
 func (s *server) SearchIO(server hello_grpc.HelloGrpc_SearchIOServer) error {
 	// Send(*Res) error
 	// Recv() (*Req, error)
@@ -85,7 +89,7 @@ func (s *server) SearchIO(server hello_grpc.HelloGrpc_SearchIOServer) error {
 			break
 		}
 		// 发出的数据
-		server.Send(&hello_grpc.Res{
+		server.Send(&hello_grpc.Res{ //nolint:errcheck
 			Message: s + "1111111111",
 			Age:     1111,
 		})
@@ -110,6 +114,7 @@ func (s *server) SearchIO(server hello_grpc.HelloGrpc_SearchIOServer) error {
 
 	return nil
 }
+
 func main() {
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
@@ -135,9 +140,12 @@ func registerGataway(wg *sync.WaitGroup) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	gwServer.ListenAndServe()
+	if err = gwServer.ListenAndServe(); err != nil {
+		fmt.Println(err.Error())
+	}
 	wg.Done()
 }
+
 func registerGrpc(wg *sync.WaitGroup) {
 	lis, err := net.Listen("tcp", "localhost:8888")
 	if err != nil {
@@ -145,6 +153,8 @@ func registerGrpc(wg *sync.WaitGroup) {
 	}
 	s := grpc.NewServer()
 	hello_grpc.RegisterHelloGrpcServer(s, &server{})
-	s.Serve(lis)
+	if err = s.Serve(lis); err != nil {
+		fmt.Println(err.Error())
+	}
 	wg.Done()
 }

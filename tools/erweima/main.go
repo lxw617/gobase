@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image/png"
 	"os"
 
@@ -20,5 +21,7 @@ func main() {
 	defer file.Close()
 
 	// encode the barcode as png
-	png.Encode(file, qrCode)
+	if err := png.Encode(file, qrCode); err != nil {
+		fmt.Println(err)
+	}
 }

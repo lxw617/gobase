@@ -3,9 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	var a = [5]int{1, 2, 3, 4, 5}
+	a := [5]int{1, 2, 3, 4, 5}
 	var r [5]int
-
 	fmt.Println("original a =", a)
 	fmt.Printf("初始化 a 的地址=%p \n", &a)
 	for i, v := range a {

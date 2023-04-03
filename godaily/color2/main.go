@@ -36,7 +36,7 @@ type Color struct {
 func ColorPrint(s string, i int) {
 	handle, _, _ := proc.Call(uintptr(syscall.Stdout), uintptr(i))
 	print(s)
-	CloseHandle.Call(handle)
+	CloseHandle.Call(handle) //nolint:errcheck
 }
 
 func main() {

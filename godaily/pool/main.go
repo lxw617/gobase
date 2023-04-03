@@ -5,8 +5,7 @@ import (
 	"time"
 )
 
-//这个是工作线程，处理具体的业务逻辑，将jobs中的任务取出，处理后将处理结果放置在results中。
-
+// 这个是工作线程，处理具体的业务逻辑，将jobs中的任务取出，处理后将处理结果放置在results中。
 func worker(id int, jobs <-chan int, results chan<- int) {
 	for j := range jobs {
 		fmt.Println("worker", id, "processing job", j)
@@ -16,8 +15,7 @@ func worker(id int, jobs <-chan int, results chan<- int) {
 }
 
 func main() {
-
-	//两个channel，一个用来放置工作项，一个用来存放处理结果。
+	// 两个channel，一个用来放置工作项，一个用来存放处理结果。
 
 	jobs := make(chan int, 100)
 	results := make(chan int, 100)
@@ -31,7 +29,7 @@ func main() {
 		jobs <- j
 	}
 	close(jobs)
-	//获取所有的处理结果
+	// 获取所有的处理结果
 	for a := 1; a <= 9; a++ {
 		<-results
 	}

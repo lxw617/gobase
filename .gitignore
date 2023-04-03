@@ -25,7 +25,6 @@
 
 # build
 /build
-/doc/
 /binary
 /Dockerfile
 /kubernetes/

@@ -57,11 +57,7 @@ func (q *QrCode) GetQrCodeExt() string {
 
 func (q *QrCode) CheckEncode(path string) bool {
 	src := path + GetQrCodeFileName(q.URL) + q.GetQrCodeExt()
-	if file.CheckNotExist(src) == true {
-		return false
-	}
-
-	return true
+	return !file.CheckNotExist(src)
 }
 
 /*
@@ -85,7 +81,7 @@ type Options struct {
 func (q *QrCode) Encode(path string) (string, string, error) {
 	name := GetQrCodeFileName(q.URL) + q.GetQrCodeExt()
 	src := path + name
-	if file.CheckNotExist(src) == true {
+	if file.CheckNotExist(src) {
 		code, err := qr.Encode(q.URL, q.Level, q.Mode)
 		if err != nil {
 			return "", "", err

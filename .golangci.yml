@@ -1,4 +1,6 @@
 linters:
+  run:
+    timeout: 5m
   disable-all: true
   enable:
     - errcheck

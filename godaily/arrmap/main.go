@@ -24,19 +24,18 @@ func main() {
 	})
 	fmt.Println(terminalParams)
 	for _, terminal := range terminalParams {
-		merchantId, _ := terminal["merchantId"]
-		terminalId, _ := terminal["terminalId"]
-		deviceSerial, _ := terminal["deviceSerial"]
+		merchantId := terminal["merchantId"]
+		terminalId := terminal["terminalId"]
+		deviceSerial := terminal["deviceSerial"]
 		if merchantId == "44444444" && terminalId == "55555555" && deviceSerial == "6666666" {
 			fmt.Println(merchantId, terminalId, deviceSerial)
 		}
 	}
-	params = append(params, map[string]interface{}{
+	_ = append(params, map[string]interface{}{
 		"merchantId":   "merchantId",
 		"terminalId":   "terminalId",
 		"deviceSerial": "deviceSerial",
 	})
-
 }
 
 // func (nums []map[string]interface{})  string {

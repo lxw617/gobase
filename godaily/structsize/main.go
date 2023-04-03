@@ -5,13 +5,13 @@ import (
 	"unsafe"
 )
 
-func main() {
-	type T struct {
-		b byte
+type T struct {
+	b byte
+	i int64
+	u uint16
+}
 
-		i int64
-		u uint16
-	}
+func main() {
 	var t T
 	fmt.Println(unsafe.Sizeof(t))
 }

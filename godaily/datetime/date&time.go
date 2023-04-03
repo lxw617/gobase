@@ -6,10 +6,10 @@ import (
 )
 
 func main() {
-	//1．获取当前时间
+	// 1．获取当前时间
 	now := time.Now()
 	fmt.Printf("now=%v now type=%T\n", now, now)
-	//2.通过now可以获取到年月日,时分秒
+	// 2.通过now可以获取到年月日,时分秒
 	fmt.Printf("年=%v\n", now.Year())
 	fmt.Printf("月=%v\n", now.Month())
 	fmt.Printf("月=%vin", int(now.Month()))
@@ -42,5 +42,5 @@ func main() {
 	   )
 	*/
 	// time 的 Unix 和 UnixNano 的方法
-	fmt.Printf("unix时间戳=%v unixnano时间戳=%v\n", now.Unix(), now.UnixNano()) //unix时间戳=1675685905 unixnano时间戳=1675685905428000000
+	fmt.Printf("unix时间戳=%v unixnano时间戳=%v\n", now.Unix(), now.UnixNano()) // unix时间戳=1675685905 unixnano时间戳=1675685905428000000
 }

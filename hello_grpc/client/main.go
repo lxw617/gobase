@@ -1,9 +1,10 @@
 package main
 
 import (
-	hello_grpc "base/hello_grpc/pb/hello"
 	"context"
 	"fmt"
+
+	hello_grpc "base/hello_grpc/pb/hello"
 
 	"google.golang.org/grpc"
 )
@@ -17,6 +18,7 @@ func main() {
 		Message: "好久不见",
 		Age:     12,
 	})
+
 	fmt.Println(req.GetMessage())
 	fmt.Println(req.GetAge())
 
@@ -85,5 +87,4 @@ func main() {
 	// 	}
 	// }()
 	// wg.Wait()
-
 }

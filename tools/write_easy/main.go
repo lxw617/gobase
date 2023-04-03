@@ -82,7 +82,7 @@ type Pt struct {
 }
 
 func main() {
-	f, err := file.MustOpen("bg.jpg", "./")
+	f, err := file.MustOpen("bg.jpg", "./godaily/erweima/")
 	if err != nil {
 		fmt.Println(err)
 	}

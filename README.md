@@ -2,7 +2,7 @@
 
 ## 1 安装依赖
 
-于 base 文件目录下，执行如下命令
+于 base 文件目录下，执行如下命令：
 
 ```
 go init go.mod
@@ -12,29 +12,285 @@ go mod tidy
 
 ## 2 目录分布
 
-### 2.1 base
+### 2.1 godaily
 
-```
 初步接触 go 语言学习过程中所写代码，由于旧文件丢失，目前正在重写
+
+- arrmap
+
+拼接一个 map 中含有三对 string 类型的 map 信息，实现匹配
+
+[map[deviceSerial:deviceSerial merchantId:merchantId terminalId:terminalId] map[deviceSerial:33333 merchantId:111111111 terminalId:2222222] map[deviceSerial:6666666 merchantId:44444444 terminalId:55555555]]
+
+- bibao
+
+闭包是指一个函数 A，返回一个或多个匿名函数 B，这一个或多个匿名函数 B 和函数 A 共享一个变量
+
+闭包的延迟绑定：实际上闭包并不会在声明 var sum = func() int {...}这句话之后，就将外部环境的 变量绑定到闭包中，而是在函数返回闭包函数的时候，才绑定的
+
+具体可参考 https://blog.csdn.net/Aphysia/article/details/127956948
+
+- changliang
+
+常量声明的同底类型不同类型变量可以相加，变量声明的同底类型不同类型变量不可以相加。同底指的是代码的根本类型一致
+
+- color1
+
+打印在终端有颜色
+
+![1680505535282](assets/1680505535282.png)
+
+- color2
+
+打印在终端有颜色
+
+![1680505514794](assets/1680505514794.png)
+
+- customererror
+
+测试自定义的错误
+
+- datetime
+
+获取当前时间，日期格式化
+
+```go
+  // 时间的常量:在程序中可用于获取指定时间单位的时间，比如想得到100 毫秒100 * time. Millisecond
+const (
+	   Nanosecond Duration = 1 //纳秒
+	   Microsecond = 1000 * Nanosecond //微秒
+	   Millisecond = 1000 * Microsecond //毫秒
+	   Second = 1000 * Millisecond //秒
+	   Minute = 60 * Second //分钟
+	   Hour = 60 * Minute //小时
+)
 ```
+
+- fasthttpandzap
+
+fastHTTPHandler 和 zap
+
+- forrange
+
+for range 循环
+
+- inttofloat
+
+int 转化为 float
+
+- invalid
+
+utf8.Valid([]byte{}) 判断是否为 unicode 字符“界”的 utf8 编码，即是否有效
+
+- jsontoint
+
+json 中提取 int 类型字段内容
+
+- jsonunmarshal
+
+格式化 json 为指定格式
+
+- mapnil
+
+键值对都为 nil 的 map 不为空，即 len(map) = 1
+
+- methoddump
+
+输出结构体拥有的方法
+
+- muscramble
+
+当 time.Sleep(10 * time.Second) 时，g0 先执行；当 time.Sleep(1 * time.Second) 时，g1 先执行
+
+- niming
+
+全局匿名函数可使用多次，在定义匿名函数时直接调用，这种匿名函数只能使用一次
+
+- numcnchar
+
+获取指定字符串汉字个数
+
+- pointer
+
+指针与非指针值的区别
+
+- pool
+
+常用业务逻辑，两个 channel，一个用来放置工作项，一个用来存放处理结果。再来一个处理工作线程的方法 worker，处理具体的业务逻辑，将 channel 中用来放置工作项 jobs 中的任务取出，处理后将处理结果存放到处理结果 results 的channel 中
+
+- poolwork
+
+绑定结构体数据，将初始化后的 list 数据存入 channal 中，开启2个线程 for 无限循环执行 process 方法，处理channal 数据，sync.WaitGroup 操作位于 process 方法内部
+
+- querystruct
+
+实现 url 中 get 方法的参数拼接 q=foo&all=true&page=2
+
+- saletickets
+
+售票，一个线程生产，另一个线程售卖
+
+- slice
+
+切片与数组区别
+
+- stringbytestr
+
+string 存储为 byte 和输出
+
+- string
+
+string 相关方法
+
+统计字符串的长度，按字节 len(str)，含有汉字的统计使用 utf8.RuneCountInString()，golang 的编码统一为 utf-8 (ascii 的字符(字母和数字)占1个字节，汉字占用3个字节)
+
+```go
+	// 统计字符串的长度,按字节len(str)
+	// golang的编码统一为utf-8(ascii的字符(字母和数字)占一个字节，汉字占用3个字节)
+	str := "hello北"
+	fmt.Println("str len=", len(str)) // 8
+	fmt.Println(utf8.RuneCountInString(str)) // 6
+
+	str2 := "he1lo北京"
+	// 字符串遍历,同时处理有中文的问题r:=[]rune(str)
+	r := []rune(str2)
+	for i := 0; i < len(r); i++ {
+		fmt.Printf("字符=%c\n", r[i])
+	}
+
+	// 字符串转整数:n,err := strconv.Atoi("12")
+	n, err := strconv.Atoi("he11o")
+	if err != nil {
+		fmt.Println("转换错误", err)
+	} else {
+		fmt.Println("转成的结果是", n)
+	}
+
+	// 整数转字符串 str = strconv.Itoa(12345)
+	str = strconv.Itoa(12345)
+	fmt.Printf("str=%v,str=%T\n", str, str)
+
+	// 字符串转[]byte: var bytes=[]byte("hello go")
+	bytes := []byte("hello go")
+	fmt.Printf("bytes=%v\n", bytes)
+
+	//[]byte转字符串:str = string([]byte{97, 98,99})
+	str = string([]byte{97, 98, 99})
+	fmt.Printf("str=%v\n", str)
+
+	// 10进制转2，8，16进制:str = strconv.FormatInt(123，2),返回对应的字符串
+	str = strconv.FormatInt(123, 2)
+	fmt.Printf("123对应的二进制是=%v\n", str)
+	str = strconv.FormatInt(123, 16)
+	fmt.Printf("123对应的16进制是=%v\n", str)
+
+	// 查找子串是否在指定的字符串中:strings.Contains("seafood", "foo")//true
+	b := strings.Contains("seafood", "maryt")
+	fmt.Printf("b=%v\n", b)
+
+	// 统计一个字符串有几个指定的子串 :strings.Count(" ceheese", "e")//4
+	num := strings.Count("ceheese", "e")
+	fmt.Printf("num=%v\n", num)
+
+	// 不区分大小写的字符串比较(=是区分字母大小写的):fmt.Println(strin
+	b = strings.EqualFold("abc", "Abc")
+	fmt.Printf("b=%v\n", b)           // true
+	fmt.Println("结果", "abc" == "Abc") // false//区分字母大小写
+
+	// 返回子串在字符串第一次出现的index值,如果没有返回-1://strings.Index("NLT_abc","abc")1/4
+	index := strings.Index("NLT_abcabcabc", "abc") // 4
+	fmt.Printf("index=%v\n", index)
+
+	// 返回子串在字符串最后一次出现的index,
+	// 如没有返回-1 : strings.LastIndex("go golang",“go")
+	index = strings.LastIndex("go golang", "go") // 3
+	fmt.Printf("index=%v\n", index)
+
+	// 将指定的子串替换成另外一个子串:strings.Replace( "go go hello", "go", "go语言",n)//n可以指定你希望替换几个,如果n=-1表示全部替换
+	str2 = "go go hello"
+	str = strings.Replace(str2, "go", "北京", -1)
+	fmt.Printf("str=%v str2=%v\n", str, str2)
+
+	// 按照指定的某个字符,为分割标识，将一个字符串拆分成字符串数组://strings.Split("hello,wrold,ok",","）
+	strArr := strings.Split("he1lo,wrold,ok", ",")
+	for i := 0; i < len(strArr); i++ {
+		fmt.Printf("str[%v]=%v\n", i, strArr[i])
+		fmt.Printf("strArr=%v\n", strArr)
+	}
+
+	// 15)将字符串的字母进行大小写的转换:
+	// strings.ToLower("co")l/ go strings.ToUpper("Go") //Go
+	str = "goLang He1lo"
+	str = strings.ToLower(str)
+	str = strings.ToUpper(str)
+	fmt.Printf("str=%v\n", str) // golang hello
+
+	// 将字符串左右两边的空格去掉
+	str = strings.TrimSpace(" tn a lone gopher ntrn ")
+	fmt.Printf("str=%q\n", str)
+
+	// 将字符串左右两边指定的字符去掉
+	// strings. Trim("! hello! ",“I")//["hello"]//将左右两边!和”“去掉
+	str = strings.Trim("! hel11o! ", "!")
+	fmt.Printf("str=%q\n", str)
+	// 将字符串左边指定的字符去掉 ： strings.TrimLeft("! hello! ", " !") // ["hello"] //将左边! 和""去掉
+	// 将字符串右边指定的字符去掉 ：strings.TrimRight("! hello! ", " !") // ["hello"] //将右边! 和""去掉
+
+	// 判断字符串是否以指定的字符串开头: strings.HasPrefix("ftp://192.168.10.1", "ftp") // true
+	b = strings.HasPrefix("ftp://192.168.10.1", "ftp")
+	fmt.Printf("b=%v\n", b)
+	// 判断字符串是否以指定的字符串结束: strings.HasSuffix("NLT_abc.jpg", "abc") //false
+```
+
+- structsize
+
+结构体 unsafe.Sizeof() 长度
+
+- switch1
+
+case 为枚举常量
+
+- switch2
+
+case 为大于小于等表达式
+
+- withgroup
+
+withgroup 实现三个线程运行一个方法
+
+- varstruct
+
+结构体初始化
+
+- unbufferedchannel
+
+通道：无缓冲通道，由于缓冲区大小不足造成的延迟，追踪延迟
+
+- zifu
+
+%T 该变量的类型，占用字节数为 unsafe.Sizeof(变量)
+
+十进制数形式:如:5.12  .512(必须有小数点)
+
+科学计数法形式，以 e2 为结尾，其中2为指数，可为正数，也可为负数
+
+byte 类型值直接输出了的对应的字符的码值。如果我们希望输出对应字符,需要使用格式化输出 %c
+
+可以直接给某个变量赋一个数字，然后按格式化输出时 %c，会输出该数字对应的 unicode 字符
+
+字符类型是可以进行运算的
 
 ### 2.2 doc
 
-```
 本项目 README.md pdf 版本
-```
 
 ### 2.3 concurrency
 
-```
 并发相关代码
-```
 
 ### 2.4 excel
 
-```
 go 操作 excel 文件相关代码，xlsx 部分功能不可实现，需结合 excelize 实现，具体参考官方文档
-```
 
 https://github.com/tealeg/xlsx
 
@@ -42,39 +298,62 @@ https://github.com/qax-os/excelize
 
 ### 2.5 gotest
 
-```
 测试 benchmark
-```
 
 ### 2.6 hello_grpc
 
-```
 grpc 测试调用
+
+```go
+PS E:\base\hello_grpc\pb> .\build.bat
+
+E:\base\hello_grpc\pb>protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative --grpc-gateway_out . --grpc-gateway_opt paths=source_relative  ./hello/hello_grpc.proto
+PS E:\base\hello_grpc\pb> go run .\client\main.go
+CreateFile .\client\main.go: The system cannot find the path specified.      
+PS E:\base\hello_grpc\pb> cd ..
+PS E:\base\hello_grpc> go run .\client\main.go
+从客户端接收到的消息为好久不见
+22
+
+PS E:\base\hello_grpc> go run .\server\main.go
+好久不见
+12
+exit status 0xc000013a
 ```
 
 ### 2.7 leetcode
 
-```
-力扣相关代码，数据库相关刷新完毕，本人未开会员
-```
+力扣相关代码，编号与力扣题号对应，数据库相关刷新完毕，本人未开会员
 
 ### 2.8 temp
 
-```
 目前均由 excel 文件生成的
-```
 
 ### 2.9 .gitignore
 
-```
 上传到 github 忽略目录及文件
-```
 
-### 2.10 temp
+### 2.10 tools
 
-```
-excel 中生成的文件
-```
+- adderss
+
+测试 "github.com/pupuk/addr"  地址识别
+
+- erweima
+
+生成内容为 Hello World 的二维码
+
+- formatfloat
+
+格式化 float
+
+- regex
+
+测试正则匹配
+
+- wire_easy
+
+给背景图加字
 
 ### 2.11 goweb
 
@@ -584,3 +863,11 @@ $ go get -u gopkg.in/resty.v1
 
 - 在设计 RESTURL 时，如果客户端查询端点而不在 URL 路径中指定版本，我们更愿意返回默认数据。默认提供一个包含单个记录的列表，我们可以将其称为 REST 端点的默认或初始响应。
 - 大多数与服务器通信的应用都使用 RESTful 服务。根据我们的需要，我们通过 JavaScript、jQuery 或 REST 客户机使用这些服务。使用`https://gopkg.in/resty.v1`包编写一个 REST 客户机，它本身就是受 Ruby REST 客户机启发来使用 RESTful 服务的。
+
+### 2.12 cipher
+
+加密算法
+
+- base 64
+
+通过 base64.StdEncoding.EncodeToString([]byte("admin:admin")) 加密 string 信息为 admin:admin

@@ -30,7 +30,7 @@ func main() {
 	whiteBackground.Println("Red text with white background.")
 
 	fmt.Println("// ------------------------------------")
-	const escape = "\x1b" //ascii码表中对应escape的编码
+	const escape = "\x1b" // ascii码表中对应escape的编码
 	f := fmt.Sprintf("%s[%sm", escape, "34")
 	fmt.Fprint(os.Stdout, f)
 	fmt.Fprintln(os.Stdout, "Hello World in blue")

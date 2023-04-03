@@ -12,6 +12,7 @@ func main() {
 	const b int = 2
 
 	const c = int(a) + b
+
 	println(c) // 5
 
 	reflect.TypeOf(c) // int
