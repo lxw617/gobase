@@ -355,6 +355,10 @@ exit status 0xc000013a
 
 给背景图加字
 
+- stringtomap
+
+字符串转化为 map
+
 ### 2.11 goweb
 
 #### 阶段一：创建一个服务器
