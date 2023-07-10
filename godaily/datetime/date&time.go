@@ -43,4 +43,18 @@ func main() {
 	*/
 	// time 的 Unix 和 UnixNano 的方法
 	fmt.Printf("unix时间戳=%v unixnano时间戳=%v\n", now.Unix(), now.UnixNano()) // unix时间戳=1675685905 unixnano时间戳=1675685905428000000
+	fmt.Println("----------------------------------------------------------------")
+	if time.Now().After(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local)) && time.Now().Before(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 6, 0, 0, 0, time.Local)) {
+		fmt.Println("-----222222222------------------------")
+		fmt.Println(time.Now().After(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local)))
+		fmt.Println(time.Now().Before(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 6, 0, 0, 0, time.Local)))
+		fmt.Println(time.Now().Format("2006-01-02 15:04:05"))
+		fmt.Println(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Format("2006-01-02 15:04:05"))
+		fmt.Println(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 6, 0, 0, 0, time.Local).Format("2006-01-02 15:04:05"))
+
+	}
+	fmt.Println("-----111111111111------------------")
+	fmt.Println(time.Unix(1684225865, 0).Format("2006-01-02 15:04:05"))
+	a := fmt.Sprintf("%.2f", float64(0)/100)
+	fmt.Println(a)
 }
